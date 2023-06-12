@@ -34,7 +34,7 @@ RUN cd /tmp && \
 	wget -O /tmp/turbovnc.deb https://sourceforge.net/projects/turbovnc/files/${TURBOVNC_V}/turbovnc_${TURBOVNC_V}_amd64.deb/download && \
 	dpkg -i /tmp/turbovnc.deb && \
 	rm -rf /opt/TurboVNC/java /opt/TurboVNC/README.txt && \
-	cp -R /opt/TurboVNC/* / && \
+	cp -R /opt/TurboVNC/bin/* /bin/ && \
 	rm -rf /opt/TurboVNC /tmp/turbovnc.deb && \
 	sed -i '/# $enableHTTP = 1;/c\$enableHTTP = 0;' /etc/turbovncserver.conf
 
