@@ -4,9 +4,9 @@ LABEL org.opencontainers.image.authors="admin@minenet.at"
 LABEL org.opencontainers.image.source="https://github.com/ich777/docker-winehq-novnc-baseimage"
 
 ARG NOVNC_V=1.4.0
-ARG TURBOVNC_V=3.0.3
+ARG TURBOVNC_V=3.1.1
 
-COPY novnccheck /usr/bin
+RUN wget -O /usr/bin/novnccheck https://github.com/ich777/docker-novnc-baseimage/raw/master/novnccheck
 RUN chmod 755 /usr/bin/novnccheck
 
 RUN cd /tmp && \
@@ -27,19 +27,19 @@ RUN cd /tmp && \
 
 RUN apt-get update && \
 	apt-get -y install --no-install-recommends xvfb wmctrl x11vnc websockify fluxbox screen libxcomposite-dev libxcursor1 xauth && \
-	sed -i '/    document.title =/c\    document.title = "noVNC";' /usr/share/novnc/app/ui.js && \
-	rm -rf /var/lib/apt/lists/*
+	sed -i '/    document.title =/c\    document.title = "noVNC";' /usr/share/novnc/app/ui.js
 
 RUN cd /tmp && \
-	wget -O /tmp/turbovnc.deb https://sourceforge.net/projects/turbovnc/files/${TURBOVNC_V}/turbovnc_${TURBOVNC_V}_amd64.deb/download && \
-	dpkg -i /tmp/turbovnc.deb && \
+	wget -O /tmp/turbovnc.deb https://github.com/TurboVNC/turbovnc/releases/download/${TURBOVNC_V}/turbovnc_${TURBOVNC_V}_amd64.deb && \
+	apt -y install /tmp/turbovnc.deb && \
 	rm -rf /opt/TurboVNC/java /opt/TurboVNC/README.txt && \
 	cp -R /opt/TurboVNC/bin/* /bin/ && \
 	rm -rf /opt/TurboVNC /tmp/turbovnc.deb && \
-	sed -i '/# $enableHTTP = 1;/c\$enableHTTP = 0;' /etc/turbovncserver.conf
+	sed -i '/# $enableHTTP = 1;/c\$enableHTTP = 0;' /etc/turbovncserver.conf && \
+	rm -rf /var/lib/apt/lists/*
 
 ENV CUSTOM_RES_W=640
 ENV CUSTOM_RES_H=480
 
-COPY /x11vnc /usr/bin/x11vnc
+RUN wget -O /usr/bin/x11vnc https://github.com/ich777/docker-novnc-baseimage/raw/master/x11vnc
 RUN chmod 751 /usr/bin/x11vnc
