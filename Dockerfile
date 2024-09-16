@@ -25,6 +25,8 @@ RUN cd /tmp && \
 	chmod -R 755 /usr/share/novnc && \
 	rm -rf /tmp/noVNC* /tmp/novnc.tar.gz
 
+COPY index.html /usr/share/novnc/
+
 RUN apt-get update && \
 	apt-get -y install --no-install-recommends xvfb wmctrl x11vnc websockify fluxbox screen libxcomposite-dev libxcursor1 xauth && \
 	sed -i '/    document.title =/c\    document.title = "noVNC";' /usr/share/novnc/app/ui.js
