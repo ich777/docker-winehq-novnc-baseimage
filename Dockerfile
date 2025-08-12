@@ -3,8 +3,8 @@ FROM ich777/winehq-baseimage
 LABEL org.opencontainers.image.authors="admin@minenet.at"
 LABEL org.opencontainers.image.source="https://github.com/ich777/docker-winehq-novnc-baseimage"
 
-ARG NOVNC_V=1.4.0
-ARG TURBOVNC_V=3.1.1
+ARG NOVNC_V=1.6.0
+ARG TURBOVNC_V=3.2
 
 RUN wget -O /usr/bin/novnccheck https://github.com/ich777/docker-novnc-baseimage/raw/master/novnccheck
 RUN chmod 755 /usr/bin/novnccheck
